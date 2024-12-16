@@ -1,0 +1,240 @@
+index4.html:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('https://tse2.mm.bing.net/th?id=OIP.NiofmOoGHUG6M4Rfn3cQKwHaEK&pid=Api&P=0&h=180') no-repeat center center fixed; /* Default background */
+            background-size: cover;
+            color: white;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+
+        #weatherDetails {
+            display: none;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+        }
+
+        #forecastDetails {
+            display: none;
+            background: rgba(0, 0, 0, 0.8);
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+        }
+        .weather-icons {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .sunny-icon { color: yellow; }
+        .cloudy-icon { color: gray; }
+        .clear-icon { color: skyblue; }
+        .rainy-icon { color: blue; }
+
+        input[type="text"], button {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            margin: 10px;
+            border: none;
+        }
+
+        .forecast-day {
+            margin-bottom: 10px;
+        }
+
+        #loading {
+            display: none;
+            color: white;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        #error-message {
+            color: red;
+            font-size: 18px;
+            display: none;
+        }
+
+        #unitToggle {
+            margin-top: 20px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        body.sunny { background: url('https://tse1.mm.bing.net/th?id=OIP.SJ-s6OQuCMFBJFnjO72IMwHaEo&pid=Api&P=0&h=180') no-repeat center center fixed; }
+        body.cloudy { background: url('https://tse4.mm.bing.net/th?id=OIP.seQ1bZQdMzsQ11E_ZvyoZgHaE8&pid=Api&P=0&h=180') no-repeat center center fixed; }
+        body.clear { background: url('https://tse2.mm.bing.net/th?id=OIP.BkCkbet2P_4lqs0Z2KvblQHaEV&pid=Api&P=0&h=180') no-repeat center center fixed; }
+        body.rainy { background: url('https://tse3.mm.bing.net/th?id=OIP.W_rqOTz2pcLQZkkZnfg5DgHaE6&pid=Api&P=0&h=180') no-repeat center center fixed; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Weather App</h1>
+    <input type="text" id="city" placeholder="Enter city name" />
+    <button id="getWeather">Get Weather</button>
+
+    <div id="loading">Loading...</div>
+    <div id="weatherDetails"></div>
+    <div id="forecastDetails">
+        <h3>5-Day Forecast</h3>
+        <div id="forecast"></div>
+    </div>
+    <div id="error-message"></div>
+    <button id="unitToggle">Toggle °C / °F</button>
+</div>
+
+<script>
+    const weatherData = {
+        "New York": { temperature: 25, humidity: 60, description: "Sunny", windSpeed: 15, country: "USA", icon: "sunny" },
+        "Los Angeles": { temperature: 30, humidity: 50, description: "Partly Cloudy", windSpeed: 10, country: "USA", icon: "cloudy" },
+        "London": { temperature: 18, humidity: 75, description: "Cloudy", windSpeed: 8, country: "UK", icon: "cloudy" },
+        "Tokyo": { temperature: 22, humidity: 70, description: "Clear", windSpeed: 14, country: "Japan", icon: "clear" },
+        "Paris": { temperature: 20, humidity: 65, description: "Partly Cloudy", windSpeed: 5, country: "France", icon: "cloudy" },
+        "Berlin": { temperature: 15, humidity: 80, description: "Rainy", windSpeed: 20, country: "Germany", icon: "rainy" },
+        "Sydney": { temperature: 27, humidity: 55, description: "Clear", windSpeed: 10, country: "Australia", icon: "clear" },
+        "Cairo": { temperature: 35, humidity: 25, description: "Sunny", windSpeed: 5, country: "Egypt", icon: "sunny" },
+        "Rio de Janeiro": { temperature: 30, humidity: 65, description: "Sunny", windSpeed: 15, country: "Brazil", icon: "sunny" },
+        "Cape Town": { temperature: 18, humidity: 70, description: "Cloudy", windSpeed: 12, country: "South Africa", icon: "cloudy" },
+        "Moscow": { temperature: 10, humidity: 90, description: "Cloudy", windSpeed: 7, country: "Russia", icon: "cloudy" },
+        "Bangkok": { temperature: 30, humidity: 85, description: "Clear", windSpeed: 8, country: "Thailand", icon: "clear" },
+        "Dubai": { temperature: 40, humidity: 20, description: "Sunny", windSpeed: 10, country: "UAE", icon: "sunny" },
+        "Beijing": { temperature: 26, humidity: 60, description: "Partly Cloudy", windSpeed: 12, country: "China", icon: "cloudy" },
+        "Mumbai": { temperature: 30, humidity: 78, description: "Sunny", windSpeed: 14, country: "India", icon: "sunny" },
+        "Lagos": { temperature: 32, humidity: 80, description: "Sunny", windSpeed: 6, country: "Nigeria", icon: "sunny" },
+        "Toronto": { temperature: 10, humidity: 55, description: "Cloudy", windSpeed: 10, country: "Canada", icon: "cloudy" },
+        "Mexico City": { temperature: 22, humidity: 65, description: "Clear", windSpeed: 7, country: "Mexico", icon: "clear" },
+        "Seoul": { temperature: 19, humidity: 75, description: "Rainy", windSpeed: 15, country: "South Korea", icon: "rainy" },
+        "Buenos Aires": { temperature: 18, humidity: 72, description: "Clear", windSpeed: 10, country: "Argentina", icon: "clear" },
+        "Jakarta": { temperature: 30, humidity: 90, description: "Cloudy", windSpeed: 20, country: "Indonesia", icon: "cloudy" },
+        "Helsinki": { temperature: 5, humidity: 80, description: "Rainy", windSpeed: 18, country: "Finland", icon: "rainy" },
+        "Amsterdam": { temperature: 14, humidity: 65, description: "Partly Cloudy", windSpeed: 12, country: "Netherlands", icon: "cloudy" },
+        "Istanbul": { temperature: 25, humidity: 70, description: "Sunny", windSpeed: 8, country: "Turkey", icon: "sunny" },
+        "Lagos": { temperature: 33, humidity: 80, description: "Sunny", windSpeed: 12, country: "Nigeria", icon: "sunny" },
+        "Madrid": { temperature: 29, humidity: 40, description: "Sunny", windSpeed: 16, country: "Spain", icon: "sunny" },
+        "Kuala Lumpur": { temperature: 28, humidity: 88, description: "Rainy", windSpeed: 14, country: "Malaysia", icon: "rainy" },
+        "Toronto": { temperature: 12, humidity: 68, description: "Cloudy", windSpeed: 9, country: "Canada", icon: "cloudy" }
+    };
+    document.getElementById('getWeather').addEventListener('click', fetchWeatherData);
+
+    let isCelsius = true; // Default unit is Celsius
+
+    function fetchWeatherData() {
+        const city = document.getElementById('city').value.trim();
+        const weatherDetails = document.getElementById('weatherDetails');
+        const loading = document.getElementById('loading');
+        const forecastDetails = document.getElementById('forecastDetails');
+        const forecast = document.getElementById('forecast');
+        const errorMessage = document.getElementById('error-message');
+        
+        weatherDetails.style.display = 'none';
+        forecastDetails.style.display = 'none';
+        loading.style.display = 'block';
+        errorMessage.style.display = 'none';
+        
+        setTimeout(function() {
+            loading.style.display = 'none'; // Hide loading
+            weatherDetails.style.display = 'block'; // Show weather details
+            
+            if (weatherData[city]) {
+                const data = weatherData[city];
+                displayWeatherData(city, data);
+                displayForecast(); // Display 5-day forecast
+            } else {
+                errorMessage.innerHTML = 'City not found! Please enter a valid city name.';
+                errorMessage.style.display = 'block';
+            }
+        }, 1500); 
+    }
+
+    function displayWeatherData(city, data) {
+        const weatherDetails = document.getElementById('weatherDetails');
+        
+        // Convert temperature based on unit
+        let temperature = data.temperature;
+        if (!isCelsius) {
+            temperature = (temperature * 9/5) + 32; // Convert to Fahrenheit
+        }
+
+       
+        const iconClass = getWeatherIconClass(data.icon);
+
+       
+        document.body.className = iconClass;
+
+        weatherDetails.innerHTML = `
+            <h2>${city}, ${data.country}</h2>
+            <div class="weather-icons ${iconClass}"></div>
+            <p><strong>Weather:</strong> ${data.description}</p>
+            <p><strong>Temperature:</strong> ${temperature.toFixed(1)}° ${isCelsius ? 'C' : 'F'}</p>
+            <p><strong>Humidity:</strong> ${data.humidity}%</p>
+            <p><strong>Wind Speed:</strong> ${data.windSpeed} km/h</p>
+        `;
+    }
+
+    function displayForecast() {
+        const forecast = document.getElementById('forecast');
+        const forecastData = [
+            { day: "Monday", temperature: 24, description: "Clear" },
+            { day: "Tuesday", temperature: 26, description: "Partly Cloudy" },
+            { day: "Wednesday", temperature: 22, description: "Cloudy" },
+            { day: "Thursday", temperature: 30, description: "Sunny" },
+            { day: "Friday", temperature: 28, description: "Showers" }
+        ];
+
+        forecast.innerHTML = forecastData.map(item => `
+            <div class="forecast-day">
+                <strong>${item.day}</strong>: ${item.temperature}° ${isCelsius ? 'C' : 'F'}, ${item.description}
+            </div>
+        `).join('');
+
+        document.getElementById('forecastDetails').style.display = 'block';
+    }
+
+    function getWeatherIconClass(icon) {
+        switch (icon) {
+            case "sunny":
+                return "sunny-icon";
+            case "cloudy":
+                return "cloudy-icon";
+            case "clear":
+                return "clear-icon";
+            case "rainy":
+                return "rainy-icon";
+            default:
+                return "default-icon";
+        }
+    }
+
+    function toggleTemperatureUnit() {
+        isCelsius = !isCelsius;
+        fetchWeatherData(); // Re-fetch weather data with new unit
+    }
+</script>
+
+</body>
+</html>
