@@ -1,0 +1,337 @@
+index3.html:
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Portfolio</title>
+    <link rel="stylesheet" href="style3.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>Hi, I'm <span>HEMAPRIYA J</span></h1>
+                <p>Web Developer | Designer | Problem Solver</p>
+                <a href="#about" class="cta-btn">About Me</a>
+            </div>
+        </div>
+    </header>
+    <section id="about">
+        <div class="container">
+            <h2>About Me</h2>
+            <div class="about-content">
+                <img src="https://tse4.mm.bing.net/th?id=OIP.SXpR7uusSgaVchn_LJBkxgHaEK&pid=Api&P=0&h=180" alt="Profile Picture">
+                <div class="text-content">
+                    <p>Hello! I'm <strong>HEMAPRIYA J</strong>, a passionate web developer with experience in building interactive websites and web applications. My expertise lies in HTML, CSS, JavaScript, and frameworks like React and Node.js. I'm always excited to learn new technologies and improve my skills.</p>
+                    <h3>Education</h3>
+                    <p>Bachelor's Degree in Computer Science from XYZ University.</p>
+                    <h3>Professional Experience</h3>
+                    <ul>
+                        <li>Web Developer at ABC Company (2021 - Present)</li>
+                        <li>Frontend Developer Intern at XYZ Corp (2020 - 2021)</li>
+                    </ul>
+                    <a href="#contact" class="cta-btn">Contact Me</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="projects">
+        <div class="container">
+            <h2>My Projects</h2>
+            <div class="projects-content">
+                <div class="project-card">
+                    <img src="https://tse1.mm.bing.net/th?id=OIP.ba3Wo5r4yihOVjVO4Jl1LgHaFP&pid=Api&P=0&h=180" alt="Project 1">
+                    <h3>Project 1: Web App</h3>
+                    <p>A responsive web application built with React and Node.js.</p>
+                    <a href="https://link-to-project.com" target="_blank" class="cta-btn">View Project</a>
+                </div>
+                <div class="project-card">
+                    <img src="https://tse2.mm.bing.net/th?id=OIP.DO-bmgb0VKAuRW8ppXsyMwHaEK&pid=Api&P=0&h=180" alt="Project 2">
+                    <h3>Project 2: Portfolio Website</h3>
+                    <p>This personal portfolio website showcases my skills and projects.</p>
+                    <a href="https://link-to-project.com" target="_blank" class="cta-btn">View Project</a>
+                </div>
+                <div class="extra-projects">
+                    <div class="project-card">
+                        <img src="https://tse1.mm.bing.net/th?id=OIP.Bt0BxZWGRHMAnK1cmU_-MAHaE3&pid=Api&P=0&h=180" alt="Project 3">
+                        <h3>Project 3: E-commerce Website</h3>
+                        <p>An e-commerce platform built with React and Firebase.</p>
+                        <a href="https://link-to-project.com" target="_blank" class="cta-btn">View Project</a>
+                    </div>
+                    <div class="project-card">
+                        <img src="https://tse4.mm.bing.net/th?id=OIP.6Vs8dibFkwSCowiRQzr5igHaEL&pid=Api&P=0&h=180" alt="Project 4">
+                        <h3>Project 4: Blog Platform</h3>
+                        <p>A fully functional blog platform with user authentication.</p>
+                        <a href="https://link-to-project.com" target="_blank" class="cta-btn">View Project</a>
+                    </div>
+                </div>
+                <button class="cta-btn show-more">Show More</button>
+            </div>
+        </div>
+    </section>
+    <section id="contact">
+        <div class="container">
+            <h2>Contact Me</h2>
+            <form action="mailto:your-email@example.com" method="POST" enctype="text/plain">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required></textarea>
+                <button type="submit" class="cta-btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Your Name. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script3.js"></script>
+</body>
+</html>
+
+
+style3.css:
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+header {
+    background: #333;
+    color: #fff;
+    padding: 80px 0;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+
+header span {
+    color: #f39c12;
+}
+
+header p {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.cta-btn {
+    background: #f39c12;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+section {
+    padding: 60px 0;
+}
+
+section h2 {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.about-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.about-content img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+
+.about-content .text-content {
+    max-width: 500px;
+}
+
+.projects-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.project-card {
+    background: #fff;
+    padding: 20px;
+    width: 45%;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.project-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.project-card h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.project-card p {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+form input, form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+footer {
+    background: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+footer p {
+    font-size: 16px;
+}
+
+.show-more {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #f39c12;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.extra-projects {
+    display: none;
+}
+
+.extra-projects.visible {
+    display: block;
+}
+
+.error {
+    color: red;
+    margin-top: 5px;
+}
+
+
+script3.js:
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        document.querySelector(this.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    });
+});
+
+const form = document.querySelector("form");
+form.addEventListener("submit", function (e) {
+    let valid = true;
+    const name = document.getElementById("name");
+    const email = document.getElementById("email");
+    const message = document.getElementById("message");
+    document.querySelectorAll('.error').forEach((error) => error.remove());
+    if (name.value.trim() === "") {
+        valid = false;
+        showError(name, "Please enter your name.");
+    }
+
+    if (email.value.trim() === "") {
+        valid = false;
+        showError(email, "Please enter your email.");
+    } else if (!validateEmail(email.value.trim())) {
+        valid = false;
+        showError(email, "Please enter a valid email.");
+    }
+    if (message.value.trim() === "") {
+        valid = false;
+        showError(message, "Please enter a message.");
+    }
+
+    if (!valid) {
+        e.preventDefault();
+    }
+});
+
+function showError(input, message) {
+    const error = document.createElement('div');
+    error.classList.add('error');
+    error.style.color = 'red';
+    error.style.marginTop = '5px';
+    error.textContent = message;
+    input.parentElement.appendChild(error);
+}
+
+function validateEmail(email) {
+    const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return re.test(email);
+}
+
+const showMoreButton = document.querySelector('#projects .show-more');
+
+if (showMoreButton) {
+    showMoreButton.addEventListener('click', function () {
+        const extraProjects = document.querySelectorAll('.extra-projects');
+        extraProjects.forEach(project => project.classList.toggle('visible'));
+
+        if (showMoreButton.textContent === 'Show More') {
+            showMoreButton.textContent = 'Show Less';
+        } else {
+            showMoreButton.textContent = 'Show More';
+        }
+    });
+}
