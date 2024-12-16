@@ -1,0 +1,282 @@
+index2.html:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic-Tac-Toe</title>
+  <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+
+  <div class="game-container">
+    <h1>Tic-Tac-Toe</h1>
+    <div class="game-mode" id="gameModeSelect">
+      <button id="playerVsPlayer" onclick="startGame('playerVsPlayer')">Player vs Player</button>
+      <button id="playerVsAI" onclick="startGame('playerVsAI')">Player vs AI</button>
+    </div>
+
+    <div class="grid-container" id="gridContainer">
+      <!-- Cells will be dynamically created by JavaScript -->
+    </div>
+
+    <div id="status">
+      <p id="turnStatus">Player X's Turn</p>
+      <button id="resetBtn" onclick="resetGame()">Play Again</button>
+    </div>
+    
+    <div id="endGameScreen" style="display: none;">
+      <h2 id="endGameMessage"></h2>
+      <button id="changeModeBtn" onclick="changeMode()">Switch Mode</button>
+      <button id="resetBtnEndGame" onclick="resetGame()">Play Again</button>
+    </div>
+  </div>
+
+  <script src="script2.js"></script>
+</body>
+</html>
+
+
+style2.css:
+
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    margin: 0;
+  }
+  
+  .game-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 320px;
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .game-mode {
+    margin-bottom: 20px;
+  }
+  
+  .game-mode button, #resetBtn, #changeModeBtn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    margin: 5px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .game-mode button:hover, #resetBtn:hover, #changeModeBtn:hover {
+    background-color: #45a049;
+  }
+  
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 5px;
+  }
+  
+  .grid-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    width: 100px;
+    height: 100px;
+    background-color: #eee;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+  }
+  
+  .grid-item:hover {
+    background-color: #ddd;
+  }
+  
+  .grid-item.animated {
+    animation: bounce 0.5s ease-in-out;
+  }
+  
+  @keyframes bounce {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  #status {
+    margin-top: 20px;
+  }
+  
+  #status p {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  #endGameScreen {
+    display: none;
+  }
+  
+  #endGameScreen h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    background-color: #f44336;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  button:hover {
+    background-color: #e53935;
+  }
+
+
+script2.js:
+
+let gameMode = '';
+let board = [];
+let currentPlayer = 'X';
+let gameActive = false;
+let AIPlayer = 'O';
+let gameOver = false;
+function startGame(mode) {
+  gameMode = mode;
+  board = [['', '', ''], ['', '', ''], ['', '', '']];
+  currentPlayer = 'X';
+  gameActive = true;
+  gameOver = false;
+  document.getElementById('status').style.display = 'block';
+  document.getElementById('resetBtn').style.display = 'none';
+  document.getElementById('endGameScreen').style.display = 'none';
+  document.getElementById('turnStatus').textContent = `Player ${currentPlayer}'s Turn`;
+
+  const gridContainer = document.getElementById('gridContainer');
+  gridContainer.innerHTML = ''; // Clear previous grid
+  for (let i = 0; i < 9; i++) {
+    const cell = document.createElement('div');
+    cell.classList.add('grid-item');
+    cell.setAttribute('data-index', i);
+    cell.addEventListener('click', handleCellClick);
+    gridContainer.appendChild(cell);
+  }
+
+  document.getElementById('playerVsPlayer').disabled = true;
+  document.getElementById('playerVsAI').disabled = true;
+}
+
+function resetGame() {
+  startGame(gameMode);
+  document.getElementById('turnStatus').textContent = `Player ${currentPlayer}'s Turn`;
+  document.getElementById('resetBtn').style.display = 'none';
+  document.getElementById('status').style.display = 'block';
+  gameOver = false;
+}
+
+function changeMode() {
+  document.getElementById('endGameScreen').style.display = 'none';
+  document.getElementById('gameModeSelect').style.display = 'block';
+  document.getElementById('playerVsPlayer').disabled = false;
+  document.getElementById('playerVsAI').disabled = false;
+}
+function handleCellClick(event) {
+  if (gameOver) return;
+
+  const cell = event.target;
+  const index = cell.getAttribute('data-index');
+  const row = Math.floor(index / 3);
+  const col = index % 3;
+
+  if (board[row][col] === '' && gameActive) {
+    board[row][col] = currentPlayer;
+    cell.textContent = currentPlayer;
+    cell.classList.add('animated');
+
+    if (checkWinner()) {
+      document.getElementById('turnStatus').textContent = `Player ${currentPlayer} Wins!`;
+      gameOver = true;
+      document.getElementById('endGameScreen').style.display = 'block';
+      document.getElementById('resetBtn').style.display = 'none';
+    } else if (board.flat().every(cell => cell !== '')) {
+      document.getElementById('turnStatus').textContent = 'It\'s a Tie!';
+      gameOver = true;
+      document.getElementById('endGameScreen').style.display = 'block';
+      document.getElementById('resetBtn').style.display = 'none';
+    } else {
+      currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+      document.getElementById('turnStatus').textContent = `Player ${currentPlayer}'s Turn`;
+      if (gameMode === 'playerVsAI' && currentPlayer === AIPlayer && !gameOver) {
+        aiMove();
+      }
+    }
+  }
+}
+
+function checkWinner() {
+  const winPatterns = [
+    [0, 1, 2], [3, 4, 5], [6, 7, 8],  
+    [0, 3, 6], [1, 4, 7], [2, 5, 8],  
+    [0, 4, 8], [2, 4, 6]              
+  ];
+
+  return winPatterns.some(pattern => {
+    const [a, b, c] = pattern;
+    const row = Math.floor(a / 3);
+    const col = a % 3;
+
+    if (board[row][col] && board[row][col] === board[Math.floor(b / 3)][b % 3] && board[row][col] === board[Math.floor(c / 3)][c % 3]) {
+      return true;
+    }
+    return false;
+  });
+}
+
+function aiMove() {
+  const emptyCells = [];
+  for (let i = 0; i < 9; i++) {
+    const row = Math.floor(i / 3);
+    const col = i % 3;
+    if (board[row][col] === '') emptyCells.push(i);
+  }
+
+  const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+  const row = Math.floor(randomCell / 3);
+  const col = randomCell % 3;
+
+  board[row][col] = AIPlayer;
+  const cell = document.querySelector(`.grid-item[data-index="${randomCell}"]`);
+  cell.textContent = AIPlayer;
+  cell.classList.add('animated');
+  currentPlayer = 'X';
+  document.getElementById('turnStatus').textContent = `Player ${currentPlayer}'s Turn`;
+  if (checkWinner()) {
+    document.getElementById('turnStatus').textContent = `Player ${AIPlayer} Wins!`;
+    gameOver = true;
+    document.getElementById('endGameScreen').style.display = 'block';
+    document.getElementById('resetBtn').style.display = 'none';
+  }
+}
